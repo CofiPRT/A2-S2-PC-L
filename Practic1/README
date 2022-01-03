@@ -1,0 +1,20 @@
+Am o problema in client.c la linia 27 ca nu mi se face bind pentru
+socketu de listening.
+
+In rest se conecteaza la server si merge LIST
+
+Se poate folosi
+
+	make run_server
+
+si
+
+	make run_client
+
+
+Pentru un alt ID alt clientului se poate rula
+
+	make run_client CLIENT_ID=____
+
+Se paote schimba portul prin
+	make run_** PORT=____
