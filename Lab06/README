@@ -1,0 +1,31 @@
+TESTARE:
+make random_file (genereaza 3 fisiere random - pentru bonus)
+make run_server
+make run_client
+
+Am observat ca sunt momente in care serverul primeste doar o anumita parte
+dintre chunk-urile trimise de client.
+
+Aparent exista si o frecventa pentru numarul de chunk-uri primite.
+De exemplu, in cazul actual trimit 3 fisiere (pentru bonus) unde fiecare are
+69 de chunk-uri (dat de marimea acestora si 'BUFLEN').
+
+Observ ca serverul de cele mai multe ori primeste valori precum:
+	207 (69*3, cand totul merge bine se trimite si semnalul de stop, si se
+		inchide serverul)
+	93
+	189
+	72
+	si altele.
+
+Nu-mi explic de ce sunt primite mai des acele numere de chunk-uri.
+
+In schimb, la rulari succesive ar trebui sa se observe ca totul se trimite
+cu succes de cele mai multe ori (cand se inchide serverul).
+
+Exista cazuri rare in care se sare peste anumite chunk-uri si se primeste
+chiar semnalul de stop (caz in care serverul se opreste dar nu au fost
+scrise 207 chunk-uri).
+
+Banuiesc ca aceasta ambiguitate de primire a pachetelor este un dezavantaj
+al UDP-ului.

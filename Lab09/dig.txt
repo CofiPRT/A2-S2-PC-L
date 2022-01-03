@@ -1,0 +1,101 @@
+Fisierele file_* sunt incluse in arhiva
+
+=== Task a ===
+	Realizați cereri de adresă (A) pentru fiecare gazdă
+
+	dig A -f <(cat file_* | sort -u) +noall +answer
+
+	sort -u -> elimina liniile duplicate
+
+
+=== Task b ===
+	Pentru gazdele care au (și) adrese IPv6, realizați cereri de tip AAAA
+
+	dig AAAA -f file_aaaa +noall +answer
+
+
+=== Task c ===
+	Pentru serverul de mail din tabelul de mai jos, realizați o cerere de tip
+	MX
+
+	dig MX -f file_mx +noall +answer
+
+
+=== Task d ===
+	Realizați o cerere DNS în care să afișați doar secțiunea de RR-uri
+	autoritare
+
+	dig @l.gtld-servers.net google.com +noall +authority
+
+
+=== Task e ===
+	Folosiți mai multe servere de nume pentru a interoga adresa IP a google.com
+
+	dig @77.107.46.159 google.com +noall +answer
+	Returneaza 216.58.211.142
+
+	dig @193.15.1.54 google.com +noall +answer
+	Returneaza 216.58.207.206
+
+	Motiv: Partitionarea in subdomenii - relativitatea numelor de domeniu
+
+
+=== Task f ===
+	Realizați o interogare de tip bulk (folosind un fișier pentru definirea
+	cererilor) la serverul de nume 8.8.8.8 pentru toate gazdele
+
+	dig @8.8.8.8 -f <(cat file_* | sort -u) +noall +answer
+
+	sort -u -> elimina liniile duplicate
+
+
+=== Task g ===
+	Folosind opțiunea de tracing, analizați pașii necesari aflării adresei
+	IPv4 pentru test.dorinel.protocoale.xyz; notați care sunt serverele de
+	nume ce răspund pentru protocoale.xyz, respectiv pentru zona
+	dorinel.protocoale.xyz
+
+	dig @8.8.8.8 test.dorinel.protocoale.xyz +trace +noall +answer
+
+	Raspunsuri:
+	test.dorinel.protocoale.xyz. 300 IN	A	127.0.42.0
+	test.dorinel.protocoale.xyz. 300 IN	A	127.0.0.42
+
+	DE LA:
+	82.78.81.172#53(potato.dfilip.xyz)
+
+	Prin:
+	dig -x 82.78.81.172 +noall +answer
+
+	Se poate observa:
+	172.81.78.82.in-addr.arpa. 5	IN	PTR	82-78-81-172.rdsnet.ro.
+
+
+	Pentru serverele de nume:
+	dig NS dorinel.protocoale.xyz +noall +answer
+
+	dig NS protocoale.xyz +noall +answer
+
+
+=== Task h ===
+	Realizați o căutare inversă (PTR) pentru o adresă IP; notați care este
+	numele de domeniu pentru care se realizează cererea și explicați de ce
+	numerele din componența adresei IP sunt în ordine inversă
+
+	dig -x 82.78.81.172 +noall +answer
+
+	Returneaza:
+	172.81.78.82.in-addr.arpa. 5	IN	PTR	82-78-81-172.rdsnet.ro.
+
+	Pentru a ajunge la destinatie, la parcurgerea domeniilor acestea apar in
+	ordine inversa, de aici rezultand ordinea numerelor din adresa IP
+
+	* Doar ce-am aflat ca "in-addr.arpa" vine de la 'inverse address' si 'ARPANET', deci mai este o legatura. Adresa cu care se raspunde se afla
+	in aceasta zona.
+
+
+=== Task i ===
+	Folosiți Wireshark pentru a vedea cum arată o cerere și un răspuns DNS
+
+	dig -x 82.78.81.172 +noall +answer
+
